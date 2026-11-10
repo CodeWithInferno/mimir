@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mimir: ask how something works, watch the answer</title>
+<meta name="description" content="One model call writes a short script. The engine turns it into a narrated, animated explainer you can scrub. Open source.">
+<meta property="og:title" content="Mimir: ask how something works, watch the answer">
+<meta property="og:description" content="One model call, about thirteen seconds, about a cent. Open source.">
+<meta property="og:image" content="https://codewithinferno.github.io/mimir/media/wankel.gif">
+<style>
+  :root { --ink: #ece9e2; --dim: #9a968d; --line: #2a2926; --blue: #58c4dd; --gold: #f0ac5f; }
+  * { box-sizing: border-box; }
+  html { background: #000; color: var(--ink); font: 18px/1.6 "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+  body { margin: 0; }
+  main { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+  a { color: var(--blue); text-underline-offset: 3px; }
+  a:focus-visible, .card:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+  header { padding: 72px 0 40px; }
+  .ask { font: 15px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--dim); margin: 0 0 28px; }
+  .ask b { color: var(--ink); font-weight: 400; }
+  .ask i { font-style: normal; color: var(--blue); }
+  h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.08; font-weight: 400; margin: 0 0 20px; letter-spacing: -0.01em; max-width: 17ch; }
+  .lede { max-width: 58ch; color: var(--dim); margin: 0 0 28px; }
+  .lede b { color: var(--ink); font-weight: 400; }
+  .go { display: flex; gap: 20px; flex-wrap: wrap; align-items: baseline; }
+  .go a.main { background: var(--ink); color: #000; text-decoration: none; padding: 10px 18px; border-radius: 2px; }
+  .hero { display: block; width: 100%; height: auto; border: 1px solid var(--line); margin: 44px 0 10px; }
+  .cap { color: var(--dim); font-size: 15px; margin: 0; }
+  h2 { font-size: 28px; font-weight: 400; margin: 88px 0 12px; }
+  h2 + p { color: var(--dim); max-width: 62ch; margin: 0 0 28px; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: #0b0b0a; border: 1px solid var(--line); padding: 20px; overflow-x: auto; margin: 0; color: #cfcbc2; }
+  pre .k { color: var(--blue); } pre .s { color: var(--gold); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px 24px; }
+  .card { display: block; color: inherit; text-decoration: none; }
+  .card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--line); background: #000; }
+  .card:hover img { border-color: var(--blue); }
+  .card q { display: block; quotes: none; margin: 12px 0 2px; }
+  .card span { color: var(--dim); font-size: 15px; }
+  table { border-collapse: collapse; width: 100%; font-size: 16px; }
+  th, td { text-align: left; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--dim); font-weight: 400; }
+  td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr.now td { color: var(--ink); } tr.was td { color: var(--dim); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .two h3 { font-size: 18px; font-weight: 400; margin: 0 0 6px; color: var(--ink); }
+  .two p { color: var(--dim); margin: 0; }
+  footer { color: var(--dim); font-size: 15px; margin-top: 96px; border-top: 1px solid var(--line); padding-top: 24px; }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; } header { padding-top: 48px; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="ask">$ <b>mimir new</b> <i>"how does a Wankel rotary engine work"</i></p>
+    <h1>Ask how something works. Watch the answer.</h1>
+    <p class="lede">One call of a language model writes a short script. Mimir lays it out, animates it, narrates it and checks it. <b>About thirteen seconds and about a cent</b>, and you can scrub it, drag its sliders, or export a video.</p>
+    <p class="go"><a class="main" href="play/wankel-rotary-engine.html">Play the Wankel engine</a> <a href="https://github.com/CodeWithInferno/mimir">Source on GitHub</a> <a href="https://www.npmjs.com/package/mimir-explain">npm: mimir-explain</a></p>
+    <a href="play/wankel-rotary-engine.html"><img class="hero" src="media/wankel.gif" width="720" height="405" alt="A Wankel rotary engine turning, beside a plot of its chamber volume against the shaft angle"></a>
+    <p class="cap">Written by a model in one call: 38 lines, 14 seconds. Click to open the interactive version.</p>
+  </header>
+
+  <h2>Every one of these was a single sentence</h2>
+  <p>Each opens as one self-contained page that works offline. Press play, scrub the timeline, switch to read mode, or open the controls and move things yourself.</p>
+  <div class="grid">
+    <a class="card" href="play/job-queue-with-retries.html"><img src="media/job-queue.gif" loading="lazy" alt="A job queue with three workers, a retry path and a dead-letter box"><q>how does a job queue with retries and a dead letter queue work</q><span>one call · 12 s · 16 lines</span></a>
+    <a class="card" href="play/geneva-drive-turn-steady.html"><img src="media/geneva-drive.gif" loading="lazy" alt="A Geneva drive stepping a slotted wheel"><q>how does a Geneva drive turn steady rotation into steps</q><span>one call · 60 s · 63 lines</span></a>
+    <a class="card" href="play/four-stroke-engine.html"><img src="media/four-stroke.gif" loading="lazy" alt="One cylinder of a four-stroke engine beside its piston height"><q>how does a four-stroke engine work</q><span>one call · 13 s · 55 lines</span></a>
+    <a class="card" href="play/lever.html"><img src="media/lever.png" loading="lazy" alt="A beam on a pivot lifting a load, beside a plot"><q>how does a lever work</q><span>one call · 20 s · 40 lines</span></a>
+    <a class="card" href="play/gradient-descent-find-minimum.html"><img src="media/gradient-descent-find-minimum.png" loading="lazy" alt="A curve with a tangent stepping toward its minimum"><q>how does gradient descent find a minimum</q><span>one call · 15 s · 34 lines</span></a>
+    <a class="card" href="play/tcp-three-way-handshake.html"><img src="media/tcp-three-way-handshake.png" loading="lazy" alt="A client and a server exchanging SYN, SYN-ACK and ACK"><q>how does a TCP three-way handshake work</q><span>one call · 8 s · 22 lines</span></a>
+    <a class="card" href="play/quick-neural-network.html"><img src="media/neural-network.gif" loading="lazy" alt="A small neural network learning, beside its error"><q>how a neural network learns</q><span>written by hand · 27 lines</span></a>
+    <a class="card" href="play/quick-binary-search.html"><img src="media/binary-search.gif" loading="lazy" alt="Binary search over a sorted row"><q>how binary search works</q><span>written by hand · 21 lines</span></a>
+  </div>
+
+  <h2>This is the whole script</h2>
+  <p>No positions, no sizes, no timings. The queue below really runs, so the counts on screen add up.</p>
+<pre><span class="k">import</span> { explain, flow, chart } <span class="k">from</span> <span class="s">'mimir'</span>
+<span class="k">export default</span> explain({
+  title: <span class="s">'How a job queue handles retries and dead letters'</span>,
+  stage: {
+    system: flow(<span class="s">'producer -> queue[8] -> worker*3 -> database; worker -fail-> retry -> queue; retry -3x-> dead letters'</span>, {
+      jobs: { count: 24, every: 1, service: [1.5, 2.2], seed: 5 },
+    }),
+    depth: chart({ x: <span class="s">'time'</span>, y: <span class="s">'jobs waiting'</span>, follow: <span class="s">'system.queue'</span> }),
+  },
+  story: [
+    { say: <span class="s">'The [producer](system.producer) adds jobs to a [queue](system.queue). [Workers](system.worker) take them one by one.'</span>, system: { until: 8 } },
+    { say: <span class="s">'A [worker](system.worker2) crashes. Its job goes to [retry](system.retry) and back into the queue.'</span>, system: { crash: <span class="s">'worker2'</span>, until: 16 } },
+    { say: <span class="s">'A [poison job](system.deadLetters) fails everywhere. After three failures it is parked as a dead letter.'</span>, system: { poison: 1, until: 28 } },
+    { say: <span class="s">'Nothing is lost: every job is [done](system.done), waiting or [dead](system.dead).'</span>, system: { until: <span class="s">'end'</span>, show: <span class="s">'conservation'</span> } },
+  ],
+})</pre>
+
+  <h2>What one explanation costs</h2>
+  <p>It started as an AI agent in a write, render, look, fix loop. That worked and was useless. Moving the layout into the engine made it one call.</p>
+  <table>
+    <tr><th></th><th>model calls</th><th>tokens</th><th>seconds</th><th>cost</th></tr>
+    <tr class="was"><td>an agent in a render-and-fix loop</td><td class="n">20</td><td class="n">732,000</td><td class="n">104</td><td class="n">$0.28</td></tr>
+    <tr class="now"><td>Mimir, a mid-size model</td><td class="n">1</td><td class="n">8,300</td><td class="n">13</td><td class="n">$0.014</td></tr>
+    <tr class="now"><td>Mimir, the cheapest model</td><td class="n">1</td><td class="n">8,800</td><td class="n">13</td><td class="n">$0.001</td></tr>
+  </table>
+  <p class="cap" style="margin-top:14px">Means over six requests, one run each. What "ready" means and where it falls short is in <a href="https://github.com/CodeWithInferno/mimir/blob/main/docs/agents.md">the notes</a>.</p>
+
+  <h2>How it differs from Manim</h2>
+  <p>Manim is the tool behind 3Blue1Brown, and it is the better tool when a person wants full control of every frame.</p>
+  <div class="two">
+    <div><h3>Manim</h3><p>You place and time everything in Python. Output is a video file. Changing one thing means editing code and rendering again. A model can write it, but it has to render, look and fix, many times.</p></div>
+    <div><h3>Mimir</h3><p>You say what is on stage and tell the story; the engine places and times it. Output is interactive: scrub, drag sliders, read it as an article, or export a video. A model gets it right in one call, because there is no layout to get wrong.</p></div>
+  </div>
+
+  <h2>Try it</h2>
+<pre>curl -fsSL https://bun.sh/install | bash
+bun add -g mimir-explain
+mimir new <span class="s">"how does a lever work"</span> --open</pre>
+  <p class="cap" style="margin-top:14px">Needs bun, a Chrome-family browser, and a model you can call from a command line (a local one works). The engine holds no API key and calls no model itself.</p>
+
+  <footer>MIT licensed. Developed on macOS with Chrome; Linux and Windows are untested. Free-form drawings still look plain, and passing the engine's own review is not the same as looking great: the scripts on this page are in the repository unedited so you can judge.</footer>
+</main>
+</body>
+</html>

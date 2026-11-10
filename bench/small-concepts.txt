@@ -1,0 +1,9 @@
+# The default prompts of `mimir bench`: six small concepts, one per line. `#` starts a comment.
+# Held out on purpose (never tune the page or the engine on them): a turbofan / jet engine, an RC circuit,
+# transformer attention.
+how does binary search work
+how does a TCP three-way handshake work
+how does a lever work
+how does bubble sort work
+how does a DNS lookup work
+how does a pulley halve the effort

@@ -1,0 +1,3 @@
+# bun test: make sure the files the build generates (src/_generated, types/*.d.ts) exist before any test imports them.
+[test]
+preload = ["./tests/setup.ts"]

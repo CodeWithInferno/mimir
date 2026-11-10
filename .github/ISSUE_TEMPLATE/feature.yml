@@ -1,0 +1,50 @@
+name: Feature request
+description: Something the engine, the checks or the command line should be able to do
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check README ("What is not built yet") and docs/STATUS.md first: much of the planned API is listed there and needs no new issue.
+  - type: textarea
+    id: explain
+    attributes:
+      label: What are you trying to explain or build
+      description: The explanation you want to make, in a sentence or two. Requests that start from a real scene are the easiest to design for.
+    validations:
+      required: true
+  - type: textarea
+    id: missing
+    attributes:
+      label: What is missing
+      description: What you cannot express, check or produce today, and how you work around it.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What it could look like in a scene or on the command line
+      description: A few lines of scene code or a command, as you would like to write it. The engine gets general features, never a special case for one topic.
+      render: javascript
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - 2D kinds and layout
+        - 3D kinds, parts and mechanisms
+        - animation verbs and timeline
+        - narration, guide and labels
+        - check rules and diagnostics
+        - viewer and player
+        - command line and export
+        - agent adapters
+        - documentation and examples
+    validations:
+      required: true
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Would you work on it
+      options:
+        - label: I can open a pull request for this

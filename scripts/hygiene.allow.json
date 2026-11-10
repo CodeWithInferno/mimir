@@ -1,0 +1,207 @@
+{
+  "config": {
+    "browserDiscovery": [
+      "src/cli/chrome.ts"
+    ],
+    "aiAdapterPaths": [
+      "src/cli/agents/**",
+      "tests/unit/cli/agents.test.ts",
+      "tests/unit/cli/lean.test.ts",
+      "tests/unit/cli/once.test.ts"
+    ],
+    "renderPath": [
+      "src/**"
+    ],
+    "renderPathExclude": [
+      "src/cli/**",
+      "src/_generated/**"
+    ],
+    "internalPaths": [
+      "internal/**",
+      "docs/research/**",
+      "docs/reviews/**",
+      "docs/plans/**",
+      "design/**",
+      "lookdev/**",
+      "sample/**",
+      "findings.md",
+      "progress.md",
+      "task_plan.md"
+    ],
+    "internalRefs": [
+      "docs/(?:research|reviews|plans)\\b",
+      "\\bresearch 0\\d\\b",
+      "\\(0[1-8](?: \u00a7[\\d.]+)?(?:, 0[1-8](?: \u00a7[\\d.]+)?)*\\)",
+      "\\bmimir-probes\\b",
+      "\\bm0-extend-it\\b",
+      "\\blookdev/",
+      "\\bdesign/(?:spec|final|directions|judging|critique)\\b",
+      "\\bsample/(?:engine|pipeline|neural-network)\\b",
+      "\\.mimir/m\\d+-evidence"
+    ],
+    "origins": [
+      {
+        "notice": "manim",
+        "pattern": "\\bmanim(?:gl|lib)?\\b|\\b3b1b\\b"
+      },
+      {
+        "notice": "three",
+        "pattern": "three/(?:examples/jsm|addons)/"
+      },
+      {
+        "notice": "KaTeX",
+        "pattern": "\\bkatex\\b"
+      },
+      {
+        "notice": "Clicky",
+        "pattern": "\\bClicky\\b"
+      },
+      {
+        "notice": "mulberry32",
+        "pattern": "\\bmulberry32\\b"
+      },
+      {
+        "notice": "sfc32",
+        "pattern": "\\bsfc32\\b"
+      },
+      {
+        "notice": "xmur3",
+        "pattern": "\\bxmur3\\b"
+      },
+      {
+        "notice": "Computer Modern",
+        "pattern": "\\bcmr10\\b|\\btftopl\\b"
+      }
+    ],
+    "bundleNotices": [
+      {
+        "name": "three.js",
+        "files": "dist/*.js",
+        "marker": "__THREE__",
+        "notice": "Copyright[^\\n]{0,40}three\\.js authors"
+      },
+      {
+        "name": "KaTeX",
+        "files": "dist/*.js",
+        "marker": "KaTeX parse error",
+        "notice": "Copyright[^\\n]{0,40}Khan Academy"
+      }
+    ],
+    "generatedAllow": [
+      "src/_generated/**",
+      "types/mimir.d.ts",
+      "types/mimir.module.d.ts",
+      "src/tex/fonts/*.ts",
+      "src/r2d/fontdata.ts",
+      "docs/CONFIG.md",
+      "skills/mimir/references/*.md"
+    ],
+    "mediaAllow": [
+      "docs/media/**"
+    ]
+  },
+  "allow": [
+    {
+      "rule": "no-home-path",
+      "path": "tests/unit/cli/infra.test.ts",
+      "reason": "Made-up home directories (/Users/x, /home/x, C:\\Users\\x) passed to chromeCandidates() and findChrome() to test the search lists of each platform; no real account, nothing is opened."
+    },
+    {
+      "rule": "no-home-path",
+      "path": "tests/unit/core/hardening.test.ts",
+      "contains": "/Users/x/",
+      "reason": "A hand-written stack frame used as parser input; the path is invented and never opened."
+    },
+    {
+      "rule": "browser-path",
+      "path": "tests/unit/cli/infra.test.ts",
+      "reason": "Unit test of the discovery module: it asserts the candidate lists that src/cli/chrome.ts returns for macOS, Linux and Windows."
+    },
+    {
+      "rule": "no-fixed-port",
+      "path": "tests/unit/cli/format.test.ts",
+      "reason": "URLs given to a text formatter (displayFile / fatalToDiag); nothing listens on or connects to them."
+    },
+    {
+      "rule": "no-fixed-port",
+      "path": "tests/unit/cli/preparse.test.ts",
+      "reason": "A URL inside an error message that locateFatal() parses; nothing listens on or connects to it."
+    },
+    {
+      "rule": "no-fixed-port",
+      "path": "tests/unit/cli/args.test.ts",
+      "reason": "Argument-parser test: --port 5000 is parsed into a number and compared, never bound."
+    },
+    {
+      "rule": "no-fixed-port",
+      "path": "tests/unit/cli/infra.test.ts",
+      "contains": "127.0.0.1:1/viewer.html",
+      "reason": "The href of a stand-in `location` object handed to the live-reload client under test; nothing listens on or connects to it."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/check/engine.ts",
+      "contains": "performance.now",
+      "reason": "How long a check took (stats.ms, printed with the result): the clock is read to measure the linter, never by a rule and never for anything that is drawn."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/r3d/three.ts",
+      "contains": "performance.now",
+      "reason": "Easing of the camera while a person drags it in the live page (user input, which wins over the story by design). It runs on animation frames of an interactive page only; a headless frame has no input, so shots and exports never reach it."
+    },
+    {
+      "rule": "no-platform-path",
+      "path": "bin/mimir",
+      "contains": "/opt/homebrew/bin/bun",
+      "reason": "Last-resort search list for bun after PATH and BUN_INSTALL (a shell started by a GUI has a short PATH); the launcher is the one place bun is discovered."
+    },
+    {
+      "rule": "no-platform-path",
+      "path": "tests/unit/cli/video.test.ts",
+      "contains": "/tmp/out.mp4",
+      "reason": "An output file name handed to ffmpegArgs(), a pure function that builds an argument list; no file is created or opened."
+    },
+    {
+      "rule": "no-ai-vendor",
+      "path": "tests/e2e/new.test.ts",
+      "reason": "End-to-end test of `mimir new`, `mimir skill` and the plugin layout: adapters are selected by the name a user types and the test asserts the CLI's output and the installed file names for them against a stand-in binary. No agent is started."
+    },
+    {
+      "rule": "no-fixed-port",
+      "path": "tests/unit/cli/agents.test.ts",
+      "reason": "Argument-parser and Host-header tests of `mimir serve`: --port 5000 is parsed and compared, ownHost() compares strings; nothing is bound or connected."
+    },
+    {
+      "rule": "no-platform-path",
+      "path": "tests/unit/cli/agents.test.ts",
+      "contains": "/usr/local/bin/agent",
+      "reason": "An invented binary path handed to pure functions that build an adapter's argument list; nothing is run or opened."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/player/app.ts",
+      "reason": "Player chrome, loaded only with a person watching and never for a headless frame: the chrome's own clock (sleep / wake, idle time, the playback clock that maps wall time to story time). The stage's pixels stay a function of story time and params; the chrome only chooses the time."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/player/home.ts",
+      "reason": "Player chrome, loaded only with a person watching and never for a headless frame: the home page's build progress and its timestamps of recent models. The stage's pixels stay a function of story time and params; the chrome only chooses the time."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/player/motion.ts",
+      "reason": "Player chrome, loaded only with a person watching and never for a headless frame: the scheduler of the chrome's own transitions. The stage's pixels stay a function of story time and params; the chrome only chooses the time."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/player/note.ts",
+      "reason": "Player chrome, loaded only with a person watching and never for a headless frame: the note column's open / close transitions. The stage's pixels stay a function of story time and params; the chrome only chooses the time."
+    },
+    {
+      "rule": "no-wallclock",
+      "path": "src/player/read.ts",
+      "reason": "Player chrome, loaded only with a person watching and never for a headless frame: the read column's scroll following. The stage's pixels stay a function of story time and params; the chrome only chooses the time."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mimir stub viewer</title>
+<!--
+  Test double of the real viewer (dist/viewer.html). It implements the same page contract:
+    viewer.html?scene=<module url>&headless=1   and   window.__mimir (DESIGN section 9)
+  and has the same shape on disk (an entry module, a lazy 3D chunk, a stylesheet, an import map), so that
+  swapping in the real viewer is only a change of MIMIR_VIEWER_ROOT.
+-->
+<link rel="stylesheet" href="./viewer.css">
+<script type="importmap">{ "imports": { "mimir": "./mimir.js" } }</script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl"></canvas>
+  <svg id="overlay" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <text id="title" x="48" y="72"></text>
+    <text id="step" x="48" y="124"></text>
+    <text id="clock" x="1232" y="72" text-anchor="end"></text>
+    <text id="readout" x="1232" y="124" text-anchor="end"></text>
+    <circle id="dot" cx="0" cy="560" r="26"></circle>
+    <text id="dot-id" class="id" x="0" y="520" text-anchor="middle"></text>
+    <text id="tri-id" class="id" x="640" y="250" text-anchor="middle"></text>
+    <rect id="track" x="48" y="664" width="1184" height="6" rx="3"></rect>
+    <rect id="progress" x="48" y="664" width="0" height="6" rx="3"></rect>
+    <text id="message" x="640" y="380" text-anchor="middle"></text>
+  </svg>
+</div>
+<script type="module" src="./mimir.js"></script>
+</body>
+</html>

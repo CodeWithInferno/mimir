@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security problem
+    url: https://github.com/<OWNER>/<REPOSITORY>/security/policy
+    about: Do not open a public issue. Read SECURITY.md and report privately.
+  - name: Question or idea that is not a bug
+    url: https://github.com/<OWNER>/<REPOSITORY>/discussions
+    about: Ask here if discussions are enabled for the repository; otherwise use the feature request form.

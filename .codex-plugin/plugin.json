@@ -1,0 +1,21 @@
+{
+  "name": "mimir",
+  "version": "0.1.0",
+  "description": "Author animated, narrated explainers of how things work (3D mechanisms, system diagrams, algorithms, plots) with the check, shot, look loop.",
+  "author": { "name": "Mimir contributors" },
+  "license": "MIT",
+  "keywords": ["explainer", "simulation", "animation", "diagram", "3d"],
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Mimir",
+    "shortDescription": "Explain how things work with animated scenes",
+    "longDescription": "Author animated, narrated explainers of how things work (3D mechanisms, system diagrams, algorithms, plots) with the check, shot, look loop.",
+    "developerName": "Mimir contributors",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "Use Mimir to explain how a four-stroke engine works.",
+      "Use Mimir to show how a request travels through this system."
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+# UNTESTED: this workflow has never run on a hosted runner. It was written on a machine without one; the YAML
+# parses and every command in it was run by hand on macOS, nothing more. Expect to adjust the Linux browser flags on
+# the first run.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    env:
+      # the one place this workflow pins a version (package.json "engines" says which versions are supported)
+      BUN_VERSION: 1.3.11
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      # The CLI finds the browser itself (src/cli/chrome.ts); this step only proves that the runner has one and
+      # prints which, so that a run without a browser fails here with one clear line and not in sixty tests.
+      - name: Headless browser
+        run: bun -e "import { findChrome } from './src/cli/chrome.ts'; console.log(findChrome())"
+
+      # Hosted Linux runners have no GPU and no user namespaces for the browser's sandbox. The flags go to the test
+      # suites through MIMIR_TEST_* (tests/support/env.ts) and to the commands this workflow runs itself through
+      # MIMIR_*. They are for CI only, never defaults of the CLI. Suites that do not read tests/support/env.ts yet
+      # run the browser without them and may fail on Linux for lack of WebGL: that is a known gap, not a flake.
+      - name: Browser flags (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          echo "MIMIR_TEST_CHROME_ARGS=--no-sandbox --use-angle=swiftshader --enable-unsafe-swiftshader" >> "$GITHUB_ENV"
+          echo "MIMIR_CHROME_ARGS=--no-sandbox --use-angle=swiftshader --enable-unsafe-swiftshader" >> "$GITHUB_ENV"
+          echo "MIMIR_TEST_TIMEOUT=120000" >> "$GITHUB_ENV"
+          echo "MIMIR_TIMEOUT=120000" >> "$GITHUB_ENV"
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Test
+        run: bun test
+
+      - name: Build (fails over a size budget)
+        run: bun run build
+
+      - name: Generated files are committed and current
+        run: git diff --exit-code -- src/_generated types
+
+      # after the build, so that the rule about licence notices in bundles sees dist/
+      - name: Hygiene (docs/OSS-HYGIENE.md)
+        run: bun run hygiene
+
+      - name: Keep frames when something failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mimir-frames-${{ matrix.os }}
+          path: .mimir/shots
+          if-no-files-found: ignore
+          retention-days: 7

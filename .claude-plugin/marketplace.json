@@ -1,0 +1,13 @@
+{
+  "name": "mimir",
+  "description": "Mimir, the explainer and simulation engine: its authoring skill and command line for coding agents.",
+  "owner": { "name": "Mimir contributors" },
+  "plugins": [
+    {
+      "name": "mimir",
+      "description": "Author animated, narrated explainers of how things work with the check, shot, look loop.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

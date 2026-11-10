@@ -1,0 +1,48 @@
+name: A scene came out wrong
+description: An agent or a person followed the loop and the result is unclear, ugly or incorrect although check passes
+labels: [scene-quality]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        `mimir check` passing does not mean a scene is good. When it passes on something that is plainly wrong, that is a missing rule or a missing piece of guidance, and this form is how we find it.
+  - type: textarea
+    id: prompt
+    attributes:
+      label: What was asked for
+      description: The question or prompt, word for word.
+    validations:
+      required: true
+  - type: textarea
+    id: scene
+    attributes:
+      label: The scene file
+      render: javascript
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong in the frames
+      description: Attach the contact sheet (`bin/mimir shot <scene> --sheet`) and point at the step. Overlap, something floating, a number that cannot be right, a step where nothing happens, text that does not match the picture.
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: Output of check
+      description: Paste `bin/mimir check <scene> --text --all`.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Who wrote the scene
+      description: A person, or which agent and model. Optional, but it helps to see patterns.
+  - type: input
+    id: version
+    attributes:
+      label: Mimir version or commit
+    validations:
+      required: true

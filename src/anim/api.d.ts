@@ -1,0 +1,42 @@
+/** Options every verb takes. duration: seconds. rate: easing (smooth by default). lag: stagger between the members of a group, as a share of one member's time. span: [start, end] in seconds from the start of the play it is part of. */
+interface VerbOpts { duration?: number; rate?: RateFn; lag?: number; span?: readonly [number, number] }
+/** Anything a point can be given as: [x, y], an object (its centre), an anchor such as box.top or part.anchor('pin'). */
+type AnimPoint = readonly number[] | Placed<unknown> | AnchorRef | (() => readonly number[])
+/** Appear (1 s). shift = the direction it arrives along ([0, 0.5] or UP); scale = the size it starts at. Hidden before this moment. */
+declare function fadeIn(m: Placed<unknown>, opts?: VerbOpts & { shift?: readonly number[]; scale?: number }): Anim
+/** Leave (1 s; ends the object's life, fadeIn brings it back). shift = the direction it leaves along; scale = the size it ends at. */
+declare function fadeOut(m: Placed<unknown>, opts?: VerbOpts & { shift?: readonly number[]; scale?: number }): Anim
+/** Draw the outline on, then fill (1 s). For shapes, lines and arrows; the members of a group are drawn one after another. Hidden before this moment. */
+declare function create(m: Placed<unknown>, opts?: VerbOpts): Anim
+/** The reverse of create (1 s): the fill goes, then the outline is taken back. Ends the object's life. */
+declare function uncreate(m: Placed<unknown>, opts?: VerbOpts): Anim
+/** Write text: each glyph's outline is traced, then filled, glyph after glyph (1 s under 15 glyphs, else 2 s; linear). Hidden before this moment. */
+declare function write(m: Placed<unknown>, opts?: VerbOpts): Anim
+/** Grow from nothing to full size (1 s). from = 'center' (default), an edge or corner of the object ('left', 'bottom', 'ul' …), or a point / object / anchor to grow out of. Hidden before this moment. */
+declare function grow(m: Placed<unknown>, opts?: VerbOpts & { from?: 'center' | 'left' | 'right' | 'top' | 'bottom' | 'ul' | 'ur' | 'dl' | 'dr' | 'start' | 'end' | AnimPoint }): Anim
+/** An arrow (or line) is drawn out of its start, its head arriving with the end (1 s). Hidden before this moment. */
+declare function growArrow(arrow: Placed<unknown>, opts?: VerbOpts): Anim
+/** a turns into b (1 s): a leaves the stage, b is the live object afterwards (hidden before). Outlines morph with corners kept sharp; text and groups cross-fade box to box. pathArc: degrees every point swings through. */
+declare function transform(a: Placed<unknown>, b: Placed<unknown>, opts?: VerbOpts & { pathArc?: number }): Anim
+/** a stays; a copy of it becomes b (1 s). b is hidden before and live afterwards. a = a flat object, a 3D part (its outline on screen lifts off), or a point / anchor (b grows out of it). */
+declare function derive(a: Placed<unknown> | AnimPoint, b: Placed<unknown>, opts?: VerbOpts & { pathArc?: number }): Anim
+/** a fades out while it travels and scales to where b is, b fades in from where a was (1 s). Works for anything: text, groups, 3D parts. */
+declare function fadeTransform(a: Placed<unknown>, b: Placed<unknown>, opts?: VerbOpts): Anim
+/** m travels along the path with its centre on it and stays at the end (1 s). path = a flat object (its outline, start to end) or a list of at least two points. */
+declare function moveAlong(m: Placed<unknown>, path: Placed<unknown> | readonly AnimPoint[], opts?: VerbOpts): Anim
+/** Turn by `degrees` (1 s; counter-clockwise for a flat object). about = 2D: a point, object or anchor to turn around (default its own centre); 3D: the axis 'x' | 'y' | 'z' or a vector (default 'y'). */
+declare function rotate(m: Placed<unknown>, degrees: number, opts?: VerbOpts & { about?: 'x' | 'y' | 'z' | AnimPoint }): Anim
+/** A pulse of stroke runs once round the box of m and leaves nothing behind (1 s). Flat objects and 3D parts. Defaults: YELLOW, strokeWidth 4, buff 0.1, timeWidth 1 (share of the outline the pulse covers). */
+declare function flashAround(m: Placed<unknown>, opts?: VerbOpts & { color?: Color; strokeWidth?: number; buff?: number; timeWidth?: number }): Anim
+/** Swell and take a colour, then settle back; nothing is left behind (1 s). Defaults: scale 1.2, color YELLOW (null = no tint). rate must return to 0 (thereAndBack, wiggle). */
+declare function indicate(m: Placed<unknown>, opts?: VerbOpts & { scale?: number; color?: Color | null }): Anim
+/** A number runs to a value (1 s). target = a param, an object with a numeric value, or a text: the first number in it runs, what is written around it stays ('0°' → '360°'). from = start (default what it shows now); decimals = digits after the point. */
+declare function count(target: Param<number> | Placed<unknown>, to: number, opts?: VerbOpts & { from?: number; decimals?: number }): Anim
+/** A param runs to a value, or through several, easing in and out of each stop (duration = seconds per leg, default 3; hold = seconds of rest at each stop on the way, default 0). */
+declare function vary(param: Param<number>, stops: number | readonly number[], opts?: VerbOpts & { hold?: number }): Anim
+/** The same animation with its own duration, rate or span inside a play; for what takes no options itself: timed(box.to.shift(2, 0), { span: [1, 2] }), timed(lagged([...]), { duration: 3 }). */
+declare function timed(anim: Anim, opts?: { duration?: number; rate?: RateFn; span?: readonly [number, number] }): Anim
+interface Scene {
+  /** How this scene moves from one step to the next. steady (default true): what two steps in a row dim or mark the same way does not blink between them. overlap (default 0.6): share of the leaving time new labels wait; 0 = cross-fade, 1 = strictly after. */
+  transitions(opts: { steady?: boolean; overlap?: number }): void
+}

@@ -1,0 +1,79 @@
+// Fixture for the `mimir docs` tests: the shapes the real types/mimir.d.ts is expected to use.
+
+/** Colour: a palette token or any CSS colour string. */
+export type Color = string
+
+/** A value or a pure function of time and params. */
+export type Dyn<T> = T | (() => T)
+
+// ── 2D ───────────────────────────────────────────────────────────────────────────
+
+/** A line of text in frame space. */
+export function text(str: string, options?: { size?: number | 'title' | 'body'; color?: Color }): Mob
+
+/**
+ * A rectangle.
+ * Width and height are in frame units.
+ */
+export function rect(options: {
+  width: number
+  height: number
+  radius?: number
+}): Mob
+
+/** Palette blue. */
+export const BLUE: Color
+
+// ── 3D ───────────────────────────────────────────────────────────────────────────
+
+/** A box centred on its origin. */
+export function box(options: { width: number; height: number; depth: number }): Part;
+
+/** Parametric parts. */
+export namespace kit {
+  /** An involute spur gear. */
+  function gear(options: { teeth: number; module: number; width: number }): Part
+  /** A coil spring whose length may be dynamic. */
+  function spring(options: { radius: number; length: Dyn<number> }): Part
+}
+
+// ── story ────────────────────────────────────────────────────────────────────────
+
+/** The object a scene builder receives. */
+export interface Scene {
+  /** Declare a parameter; shows as a slider. */
+  param(name: string, options: { value: number; min: number; max: number }): () => number
+  /** Add a step to the story. */
+  step(title: string, build: (st: Step) => void): void
+  /** Simulation time in seconds. */
+  t(): number
+}
+
+/** What a step can do. */
+export interface Step {
+  /** Narration with guide spans. */
+  say(text: string): void
+  /** Play animations. */
+  play(...anims: Anim[]): void
+  // overload: with options
+  play(anims: Anim[], options: { duration?: number }): void
+}
+
+/** Declare a scene. */
+export default function scene(meta: { title: string }, build: (s: Scene) => void): SceneModule
+
+// ── guide ────────────────────────────────────────────────────────────────────────
+
+/** Narration additions to a step (declared by another module: the interface is merged). */
+export interface Step {
+  /** Put a label on a part for this step. */
+  label(part: Part, text?: string): void
+}
+
+// ── module form ──────────────────────────────────────────────────────────────────
+type __mimir_box = typeof box
+type __mimir_text = typeof text
+declare module 'mimir' {
+  export const box: __mimir_box
+  export const text: __mimir_text
+}

@@ -1,0 +1,76 @@
+{
+  "name": "mimir",
+  "version": "0.1.0",
+  "description": "Lightweight AI-native explainer / simulation engine: ask how something works, get an interactive animated working model.",
+  "keywords": [
+    "explainer",
+    "animation",
+    "simulation",
+    "visualization",
+    "interactive",
+    "diagram",
+    "3d",
+    "threejs",
+    "svg",
+    "cli",
+    "agent",
+    "ai-native",
+    "education",
+    "bun"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "mimir": "bin/mimir"
+  },
+  "module": "dist/mimir.js",
+  "types": "types/mimir.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/mimir.d.ts",
+      "default": "./dist/mimir.js"
+    },
+    "./3d": "./dist/mimir.3d.js",
+    "./check": "./dist/mimir.check.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "scripts/build.ts",
+    "types/",
+    "dist/",
+    "examples/",
+    "docs/getting-started.md",
+    "docs/cli.md",
+    "docs/EXTENDING.md",
+    "docs/OSS-HYGIENE.md",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "bun": ">=1.3.11"
+  },
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "barrels": "bun scripts/build.ts --barrels",
+    "test": "bun test",
+    "test:unit": "bun test tests/unit",
+    "typecheck": "bun scripts/build.ts --barrels --quiet && tsc --noEmit -p .",
+    "test:e2e": "bun test tests/e2e",
+    "offline-proof": "bun scripts/offline-proof.ts",
+    "hygiene": "bun scripts/hygiene.ts",
+    "hygiene:strict": "bun scripts/hygiene.ts --strict",
+    "prepack": "bun scripts/build.ts"
+  },
+  "dependencies": {
+    "katex": "^0.19.1",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "@types/three": "^0.187.0",
+    "typescript": "^7.0.2"
+  }
+}

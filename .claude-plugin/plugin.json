@@ -1,0 +1,9 @@
+{
+  "name": "mimir",
+  "version": "0.1.0",
+  "description": "Author animated, narrated explainers of how things work (3D mechanisms, system diagrams, algorithms, plots) with the check, shot, look loop.",
+  "author": { "name": "Mimir contributors" },
+  "license": "MIT",
+  "keywords": ["explainer", "simulation", "animation", "diagram", "3d", "agent-skills"],
+  "skills": "./skills"
+}

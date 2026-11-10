@@ -1,0 +1,56 @@
+#!/bin/sh
+# mimir launcher: runs src/cli/main.ts with bun from any working directory.
+# Resolves its own location through symlinks (npm link, plugin bin dirs) and never starts itself again.
+
+self="$0"
+case "$self" in
+  */*) ;;
+  *) self="$(command -v -- "$0" 2>/dev/null || printf '%s' "$0")" ;;
+esac
+hops=0
+while [ -L "$self" ]; do
+  hops=$((hops + 1))
+  if [ "$hops" -gt 40 ]; then
+    echo "mimir: too many symbolic links resolving $0" >&2
+    exit 2
+  fi
+  target="$(readlink "$self")"
+  case "$target" in
+    /*) self="$target" ;;
+    *) self="$(dirname "$self")/$target" ;;
+  esac
+done
+bindir="$(cd -P "$(dirname "$self")" >/dev/null 2>&1 && pwd)"
+root="$(dirname "$bindir")"
+main="$root/src/cli/main.ts"
+
+if [ ! -f "$main" ]; then
+  echo "mimir: cannot find $main (the launcher must stay in <mimir>/bin)" >&2
+  exit 2
+fi
+
+# A launcher that somehow ends up invoking itself would loop forever; stop it after a few levels.
+# Legitimate nesting (mimir new -> agent -> mimir check) stays far below this.
+depth="${MIMIR_LAUNCH_DEPTH:-0}"
+case "$depth" in '' | *[!0-9]*) depth=0 ;; esac
+if [ "$depth" -ge 8 ]; then
+  echo "mimir: the launcher is calling itself (depth $depth); aborting" >&2
+  exit 2
+fi
+MIMIR_LAUNCH_DEPTH=$((depth + 1))
+export MIMIR_LAUNCH_DEPTH
+
+bun=""
+for candidate in "$(command -v bun 2>/dev/null)" "${BUN_INSTALL:-$HOME/.bun}/bin/bun" /opt/homebrew/bin/bun /usr/local/bin/bun; do
+  [ -n "$candidate" ] && [ -x "$candidate" ] || continue
+  # never pick this script (or a link to it) as the runtime
+  if [ "$candidate" -ef "$bindir/mimir" ]; then continue; fi
+  bun="$candidate"
+  break
+done
+if [ -z "$bun" ]; then
+  echo "mimir: bun is required but was not found on PATH (install: https://bun.sh)" >&2
+  exit 2
+fi
+
+exec "$bun" "$main" "$@"

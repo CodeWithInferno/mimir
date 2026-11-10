@@ -97,6 +97,14 @@ or Brave). ffmpeg is needed only for video export. `mimir new` also needs a mode
 (see below).
 
 ```sh
+curl -fsSL https://bun.sh/install | bash          # install bun (other ways: https://bun.sh)
+bun add -g mimir-explain                          # or: npm install -g mimir-explain  (the command is `mimir`, also `mimir-explain`)
+mimir new "how does a lever work" --open          # one call of a model, then it plays
+```
+
+Or work from a checkout (every `bin/mimir` below is `mimir` when it is installed):
+
+```sh
 git clone https://github.com/CodeWithInferno/mimir.git && cd mimir
 bun install
 

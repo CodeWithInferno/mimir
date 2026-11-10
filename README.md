@@ -74,19 +74,20 @@ Every script on that page is run by the test suite.
 |---|---|
 | [examples/quick-neural-network.scene.js](examples/quick-neural-network.scene.js), 27 lines | [examples/quick-binary-search.scene.js](examples/quick-binary-search.scene.js), 21 lines |
 
-## How it differs from Manim
+## Inspired by Manim
 
-[Manim](https://www.manim.community/) is the tool behind 3Blue1Brown, and it is the better tool when a person wants
-full control of every frame. Mimir trades that control for speed.
+Mimir owes its look and its idea of a good explanation to [Manim](https://www.manim.community/), the engine behind
+3Blue1Brown: light on black, Computer Modern type, one idea per step, the picture carrying the argument. It is not a
+replacement for it. Manim gives a person full control of every frame, and that is what you want for a film.
 
-| | Manim | Mimir |
-|---|---|---|
-| You write | where everything is and when it moves, in Python | what is on stage and the story; the engine places and times it |
-| Output | a video file | an interactive page (scrub, sliders, read mode), one offline HTML file, or an mp4 |
-| A change | edit the code, render again | edit one line, the open page reloads; or `mimir new "..." --edit` |
-| Written by a model | it has to render, look and fix, many times | one call, because there is no layout to get wrong |
-| Numbers on screen | whatever you animate | computed: a real run, a simulation, kinematics, a formula |
-| Ceiling | as high as your patience | what the blocks can show today; plainer than a hand-made Manim scene |
+Mimir takes the same spirit and makes it quick and easy for an AI to use:
+
+- **Nothing to place or time.** The script says what is on stage and tells the story; the engine does the layout
+  and the pacing. That is why one model call is enough.
+- **The result is interactive**, not only a video: scrub it, drag its sliders, read it as an article, or export an mp4.
+- **Numbers are computed**: a real run, a simulation, kinematics, a formula.
+
+If you want every frame your way, use Manim. If you want a decent explainer from a sentence in fifteen seconds, try this.
 
 ## What one explanation costs
 

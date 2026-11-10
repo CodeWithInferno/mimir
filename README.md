@@ -6,6 +6,8 @@
 mimir new "how does a Wankel rotary engine work" --open
 ```
 
+**[Play the demos in your browser](https://codewithinferno.github.io/mimir/)**: nothing to install.
+
 One call of a language model writes a short script. The engine lays it out, animates it, narrates it, checks it
 and plays it. No positions, no sizes, no timings in the script, and no loop of render-look-fix behind it.
 
@@ -71,6 +73,20 @@ Every script on that page is run by the test suite.
 | ![A 2-3-1 neural network learning, beside its error](docs/media/neural-network.gif) | ![Binary search over a sorted row with lo, mid and hi pointers](docs/media/binary-search.gif) |
 |---|---|
 | [examples/quick-neural-network.scene.js](examples/quick-neural-network.scene.js), 27 lines | [examples/quick-binary-search.scene.js](examples/quick-binary-search.scene.js), 21 lines |
+
+## How it differs from Manim
+
+[Manim](https://www.manim.community/) is the tool behind 3Blue1Brown, and it is the better tool when a person wants
+full control of every frame. Mimir trades that control for speed.
+
+| | Manim | Mimir |
+|---|---|---|
+| You write | where everything is and when it moves, in Python | what is on stage and the story; the engine places and times it |
+| Output | a video file | an interactive page (scrub, sliders, read mode), one offline HTML file, or an mp4 |
+| A change | edit the code, render again | edit one line, the open page reloads; or `mimir new "..." --edit` |
+| Written by a model | it has to render, look and fix, many times | one call, because there is no layout to get wrong |
+| Numbers on screen | whatever you animate | computed: a real run, a simulation, kinematics, a formula |
+| Ceiling | as high as your patience | what the blocks can show today; plainer than a hand-made Manim scene |
 
 ## What one explanation costs
 

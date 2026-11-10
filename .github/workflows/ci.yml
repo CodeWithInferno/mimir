@@ -57,6 +57,10 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
+      # before the tests: suites that open the real viewer expect dist/ to be there (a cold runner found it missing)
+      - name: Build (fails over a size budget)
+        run: bun run build
+
       - name: Test
         run: bun test tests/unit
 
@@ -66,9 +70,6 @@ jobs:
       - name: End-to-end (reported, not required on hosted runners)
         continue-on-error: true
         run: bun test tests/e2e
-
-      - name: Build (fails over a size budget)
-        run: bun run build
 
       - name: Generated files are committed and current
         run: git diff --exit-code -- src/_generated types

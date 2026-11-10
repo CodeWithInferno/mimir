@@ -98,6 +98,13 @@ or Brave). ffmpeg is needed only for video export. `mimir new` also needs a mode
 
 ```sh
 curl -fsSL https://bun.sh/install | bash          # install bun (other ways: https://bun.sh)
+bun add -g mimir-explain                          # or: npm install -g mimir-explain  (the command is `mimir`, also `mimir-explain`)
+mimir new "how does a lever work" --open          # one call of a model, then it plays
+```
+
+Or work from a checkout (every `bin/mimir` below is `mimir` when it is installed):
+
+```sh
 git clone https://github.com/CodeWithInferno/mimir.git && cd mimir
 bun install
 
@@ -169,7 +176,7 @@ The dated list, with the command that proves each row, is [docs/STATUS.md](docs/
   has not been run by the authors. Windows is untested. Safari, Firefox and phones were never tried. Frame hashes
   are not promised to match across browsers, GPUs or operating systems.
 - **Voice**: narration is shown as captions lit word by word; it is not spoken.
-- **No package release**: clone the repository; nothing is published to a registry.
+- **The package needs bun**: `mimir-explain` on npm is the sources and a launcher that runs them with bun; node alone does not run it.
 
 ## Why JavaScript and not Rust
 

@@ -154,7 +154,7 @@ export async function ensureViewer(
 
   if (!existsSync(script)) {
     if (why !== 'missing') {
-      log('dist is older than src but scripts/build.ts is missing; using the existing dist')
+      // an installed package: it ships its build and no build script, and file dates there mean nothing
       return { dir, built: false }
     }
     throw new CliError(

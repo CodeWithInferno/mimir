@@ -1,7 +1,7 @@
 {
-  "name": "mimir",
+  "name": "mimir-explain",
   "version": "0.1.0",
-  "description": "Lightweight AI-native explainer / simulation engine: ask how something works, get an interactive animated working model.",
+  "description": "Ask how something works; get a narrated, animated, interactive explanation from one model call. Scenes are short scripts with no positions, sizes or timings.",
   "keywords": [
     "explainer",
     "animation",
@@ -19,9 +19,19 @@
     "bun"
   ],
   "license": "MIT",
+  "author": "CodeWithInferno",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeWithInferno/mimir.git"
+  },
+  "homepage": "https://github.com/CodeWithInferno/mimir#readme",
+  "bugs": {
+    "url": "https://github.com/CodeWithInferno/mimir/issues"
+  },
   "type": "module",
   "bin": {
-    "mimir": "bin/mimir"
+    "mimir": "bin/mimir",
+    "mimir-explain": "bin/mimir"
   },
   "module": "dist/mimir.js",
   "types": "types/mimir.d.ts",
@@ -34,20 +44,28 @@
     "./check": "./dist/mimir.check.js"
   },
   "files": [
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "bench/",
     "bin/",
-    "src/",
-    "scripts/build.ts",
-    "types/",
     "dist/",
-    "examples/",
-    "docs/getting-started.md",
-    "docs/cli.md",
+    "docs/CONFIG.md",
     "docs/EXTENDING.md",
     "docs/OSS-HYGIENE.md",
-    "README.md",
-    "LICENSE",
-    "THIRD_PARTY_NOTICES.md",
-    "CHANGELOG.md"
+    "docs/QUICK.md",
+    "docs/STATUS.md",
+    "docs/agents.md",
+    "docs/cli.md",
+    "docs/getting-started.md",
+    "docs/topics/",
+    "examples/",
+    "skills/",
+    "src/",
+    "tsconfig.json",
+    "types/"
   ],
   "engines": {
     "bun": ">=1.3.11"

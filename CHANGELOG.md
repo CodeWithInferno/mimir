@@ -7,7 +7,7 @@ changes are listed under "Changed" with what to edit in a scene.
 
 ## [Unreleased]
 
-Nothing has been released. `package.json` says 0.1.0; that number has not been tagged or published.
+0.1.0 is published to npm as `mimir-explain` (the name `mimir` belongs to another package). It needs bun.
 
 ### Added
 
